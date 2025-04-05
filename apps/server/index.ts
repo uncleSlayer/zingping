@@ -27,12 +27,8 @@ const io = new Server(httpServer, {
 
 io.on('connection', (socket) => {
 
-    const request = socket.client.request
-
-    const cookies = request.headers.cookie
-
-    console.log("cookies", cookies)
-
+    const request = socket.handshake.auth
+    console.log("Header", request)
     console.log('a user connected');
 
 });
