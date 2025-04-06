@@ -11,8 +11,8 @@ import { set, z } from "zod"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import axios from "axios"
-import { UploadButton } from "@/lib/utils";
 import Link from "next/link"
+import ProfilePictureUploadButtonComponent from "./ProfilePictureUploadButton"
 
 export function RegisterationForm({
   className,
@@ -115,32 +115,7 @@ export function RegisterationForm({
                   <Label htmlFor="profileImageUrl">Profile Image</Label>
                 </div>
                 {
-                  profileImageUrl.length === 0 && <UploadButton
-
-                    appearance={{
-                      button({ ready, isUploading }) {
-                        return {
-                          color: "white",
-                          backgroundColor: "black",
-                          ...(ready && { color: "white" }),
-                          ...(isUploading && { color: "white", backgroundColor: "black" }),
-                        };
-                      },
-                      container: {
-                        marginTop: "1rem",
-                      },
-                      allowedContent: {
-                        color: "#a1a1aa",
-                      },
-                    }}
-                    endpoint="imageUploader"
-                    onClientUploadComplete={(res) => {
-                      setProfileImageUrl(res[0].ufsUrl)
-                    }}
-                    onUploadError={(error: Error) => {
-                      toast(error.message)
-                    }}
-                  />
+                  profileImageUrl.length === 0 && <ProfilePictureUploadButtonComponent setProfileImageUrl={setProfileImageUrl} />
                 }
                 {
                   profileImageUrl.length > 0 && <img src={profileImageUrl} alt="Profile Image" className="w-20 h-20 object-cover rounded-md" />
