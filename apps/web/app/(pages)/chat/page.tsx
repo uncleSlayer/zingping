@@ -12,6 +12,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/components/ui/avatar'
+import axios from 'axios'
 
 const page = () => {
   const [clickedPerson, setClickedPerson] = useState<null | { id: string, name: string, email: string, imageUrl: string }>(null)
@@ -19,9 +20,10 @@ const page = () => {
   const { error, data: friendsList, isLoading } = useQuery({
     queryKey: ['friendsList'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:3000/api/friends/friends')
-      const jsonResponse = await response.json()
-      return jsonResponse.data
+      const response = await axios('http://localhost:8080/friend/get/all', {
+        withCredentials: true,
+      })
+      return response.data.data
     }
   })
 
@@ -59,7 +61,7 @@ const page = () => {
             {
               friendsList.map((friend: { id: string, name: string, email: string, imageUrl: string }, index: number) => {
                 return <li onClick={() => setClickedPerson(friend)} className='p-1 cursor-pointer dark:text-white rounded-lg' key={friend.id}>
-                  <div className={`flex gap-x-2 items-center justify-start hover:bg-[rgb(238,238,248)] p-2 rounded-lg ${clickedPerson?.name === friend.name? `bg-[rgb(238,238,248)]`: ''}`}>
+                  <div className={`flex gap-x-2 items-center justify-start hover:bg-[rgb(238,238,248)] p-2 rounded-lg ${clickedPerson?.name === friend.name ? `bg-[rgb(238,238,248)]` : ''}`}>
                     <Avatar>
                       <AvatarImage className='' src={friend.imageUrl} alt="@shadcn" />
                       <AvatarFallback>CN</AvatarFallback>

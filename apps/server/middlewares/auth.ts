@@ -40,7 +40,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
                 res.status(401).json({ message: "Unauthorized" });
                 return;
             }
-            
+ 
             jwt.verify(token, ENV_CONFIG.JWT_SECRET, (err: any, decoded: any) => {
 
                 if (err) {

@@ -168,7 +168,8 @@ friendRouter.post(ROUTES_CONFIG.protected.friend[0], async (req, res) => {
 
 })
 
-friendRouter.post(ROUTES_CONFIG.protected.friend[1], async (req, res) => {
+friendRouter.get(ROUTES_CONFIG.protected.friend[1], async (req, res) => {
+
 
     /**
      * @description - Get all friends
@@ -213,7 +214,7 @@ friendRouter.post(ROUTES_CONFIG.protected.friend[1], async (req, res) => {
             res.status(400).json(response);
             return
         }
-
+        
         const allFriendRequests = await prisma.friendRequest.findMany({
             where: {
                 OR: [
@@ -248,6 +249,8 @@ friendRouter.post(ROUTES_CONFIG.protected.friend[1], async (req, res) => {
             message: "Friends fetched successfully",
             data: allFriendsObj,
         };
+
+        res.status(200).json(response);
 
     } catch (error) {
         const response: Response = {

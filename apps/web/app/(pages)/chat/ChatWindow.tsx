@@ -10,7 +10,7 @@ import { queryClient } from '@/contexts/TanstackQueryProvider'
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { AuthContext } from '@/contexts/AuthProvider'
 
-const ChatWindow = async ({ friendInfo }: { friendInfo: { id: string, name: string, email: string, imageUrl: string } | null }) => {
+const ChatWindow = ({ friendInfo }: { friendInfo: { id: string, name: string, email: string, imageUrl: string } | null }) => {
 
 
   if (!friendInfo) return <h3>Open chat with a friend to see messages...</h3>
