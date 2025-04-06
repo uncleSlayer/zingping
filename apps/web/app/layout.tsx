@@ -7,6 +7,10 @@ import TanstackQueryProvider from '@/contexts/TanstackQueryProvider'
 import { headers } from "next/headers";
 import SocketProvider from '@/contexts/SocketProvider'
 import AuthProvider from "@/contexts/AuthProvider";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { ourFileRouter } from "@/app/api/uploadthing/core";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +33,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const email = (await headers()).get("x-userEmail") 
+  const email = (await headers()).get("x-userEmail")
 
   const socket = io('http://localhost:8080?email="siddhant.ota@gmail.com"', {
     auth: {
@@ -50,6 +54,7 @@ export default async function RootLayout({
         <TanstackQueryProvider>
           <SocketProvider userEmail={email}>
             <AuthProvider email={email}>
+              <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
               {children}
             </AuthProvider>
           </SocketProvider>

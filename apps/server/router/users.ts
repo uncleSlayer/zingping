@@ -8,7 +8,6 @@ import { ENV_CONFIG } from "../config/env";
 import { ROUTES_CONFIG } from "../config/routes";
 
 const registerSchema = z.object({
-    name: z.string(),
     email: z.string().email(),
     password: z.string(),
     profileImageUrl: z.string()
@@ -25,7 +24,7 @@ usersRouter.post(ROUTES_CONFIG.public.auth[1], async (req, res) => {
 
     try {
 
-        const { name, email, password, profileImageUrl } = req.body;
+        const { email, password, profileImageUrl } = req.body;
 
         const registerData = registerSchema.parse(req.body);
 
@@ -61,7 +60,6 @@ usersRouter.post(ROUTES_CONFIG.public.auth[1], async (req, res) => {
 
                 const user = await prisma.user.create({
                     data: {
-                        name,
                         email,
                         password: hash,
                         imageUrl: profileImageUrl,
@@ -83,8 +81,8 @@ usersRouter.post(ROUTES_CONFIG.public.auth[1], async (req, res) => {
 
         const response: ResponseType = {
             status: "error",
-            message: "Something went wrong",
-            data: null,
+            message: "Something went wrong.",
+            data: error,
         };
 
         res.status(500).json(response);
@@ -159,7 +157,7 @@ usersRouter.post(ROUTES_CONFIG.public.auth[0], async (req, res) => {
         const response: ResponseType = {
             status: "error",
             message: "Something went wrong",
-            data: null,
+            data: error,
         };
 
         res.status(500).json(response);
@@ -182,7 +180,7 @@ usersRouter.get(ROUTES_CONFIG.protected.auth[0], async (req, res) => {
         const response: ResponseType = {
             status: "error",
             message: "Something went wrong",
-            data: null,
+            data: error,
         };
         res.status(500).json(response);
     }

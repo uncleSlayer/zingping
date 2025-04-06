@@ -326,8 +326,8 @@ friendRouter.get(ROUTES_CONFIG.protected.friend[2], async (req, res) => {
 
         friendRequestsSent.forEach(async friendRequest => {
             friendRequestSentData.push({
-                sender: (await prisma.user.findFirst({ where: { id: friendRequest.senderUserId } }))?.name,
-                receiver: (await prisma.user.findFirst({ where: { id: friendRequest.receiverUserId } }))?.name
+                sender: (await prisma.user.findFirst({ where: { id: friendRequest.senderUserId } }))?.email,
+                receiver: (await prisma.user.findFirst({ where: { id: friendRequest.receiverUserId } }))?.email
             })
         })
 

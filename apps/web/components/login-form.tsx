@@ -11,6 +11,7 @@ import { z } from 'zod'
 import { toast } from "sonner"
 import axios from "axios"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export function LoginForm({
   className,
@@ -115,9 +116,9 @@ export function LoginForm({
               </Button>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="#" className="underline underline-offset-4">
+                <Link href="/signup" className="underline underline-offset-4">
                   Sign up
-                </a>
+                </Link>
               </div>
             </div>
           </form>

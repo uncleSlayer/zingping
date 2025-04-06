@@ -16,8 +16,6 @@ const _routes = {
          * - friend/get/all - Get all friends
          * - friend/request/status - Get friend requests filtered by status
          * - friend/respond - Respond to friend requests
-         * - chat/get/all - Get all chats
-         * - auth/logout - User logout
         */
 
         friend: [
@@ -26,9 +24,19 @@ const _routes = {
             "/friend/request/pending",
             "/friend/respond"
         ],
+
+        /** 
+         * - chat/get/all - Get all chats
+         */
+
         chat: [
             "/chat/get/all"
         ],
+
+        /** 
+         * - auth/logout - User logout
+         */
+
         auth: [
             "/auth/logout"
         ]
