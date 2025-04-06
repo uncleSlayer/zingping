@@ -3,7 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner"
 import { io } from "socket.io-client";
-import H from "next/headers";
+import TanstackQueryProvider from '@/contexts/TanstackQueryProvider'
+import { headers } from "next/headers";
+import SocketProvider from '@/contexts/SocketProvider'
+import AuthProvider from "@/contexts/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +29,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const email = (await H.headers()).get("x-userEmail")
+  const email = (await headers()).get("x-userEmail") 
 
   const socket = io('http://localhost:8080?email="siddhant.ota@gmail.com"', {
     auth: {
@@ -44,9 +47,15 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <TanstackQueryProvider>
+          <SocketProvider userEmail={email}>
+            <AuthProvider email={email}>
+              {children}
+            </AuthProvider>
+          </SocketProvider>
+        </TanstackQueryProvider>
         <Toaster />
       </body>
-    </html>
+    </html >
   );
 }

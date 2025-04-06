@@ -42,7 +42,7 @@ export function LoginForm({
 
     } else {
 
-      const response = await axios.post("http://localhost:8080/login", {
+      const response = await axios.post("http://localhost:8080/auth/login", {
         email,
         password,
       }, {

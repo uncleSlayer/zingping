@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { z } from 'zod';
 import { ENV_CONFIG } from "../config/env";
+import { ROUTES_CONFIG } from "../config/routes";
 
 const registerSchema = z.object({
     name: z.string(),
@@ -20,7 +21,7 @@ const loginSchema = z.object({
 
 export const usersRouter = Router();
 
-usersRouter.post("/register", async (req, res) => {
+usersRouter.post(ROUTES_CONFIG.public.auth[1], async (req, res) => {
 
     try {
 
@@ -92,7 +93,7 @@ usersRouter.post("/register", async (req, res) => {
 
 });
 
-usersRouter.post("/login", async (req, res) => {
+usersRouter.post(ROUTES_CONFIG.public.auth[0], async (req, res) => {
 
     try {
 
@@ -166,4 +167,23 @@ usersRouter.post("/login", async (req, res) => {
     }
 
 
+})
+
+usersRouter.get(ROUTES_CONFIG.protected.auth[0], async (req, res) => {
+    try { 
+
+        res.clearCookie("auth-token").status(200).json({
+            status: "success",
+            message: "User logged out successfully",
+            data: null,
+        });
+
+    } catch (error) {
+        const response: ResponseType = {
+            status: "error",
+            message: "Something went wrong",
+            data: null,
+        };
+        res.status(500).json(response);
+    }
 })

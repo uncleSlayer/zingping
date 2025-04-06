@@ -5,34 +5,42 @@ import { ROUTES_CONFIG } from "../config/routes";
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     
-    const cookie = req.headers["cookie"];
+    const cookies = req.cookies;
 
-    if (!cookie) {
-        res.status(401).json({ message: "Unauthorized" });
-        return;
-    }
-
-    const token = cookie.split("=")[1];
-
-    if (!token) {
-        res.status(401).json({ message: "Unauthorized" });
-        return;
-    }
+    const token = cookies["auth-token"];  
 
     try {
 
         const requestPath = req.originalUrl;
 
+        const protectedRoutes: string[] = []
+        const publicRoutes: string[] = []
 
-        const protectedRoutes = Object.keys(ROUTES_CONFIG.protected).map(key => ROUTES_CONFIG.protected[key as keyof typeof ROUTES_CONFIG.protected])[0];
+        Object.keys(ROUTES_CONFIG.protected).map(key => ROUTES_CONFIG.protected[key as keyof typeof ROUTES_CONFIG.protected]).map((routes) => {
+            protectedRoutes.push(...routes)
+        });
 
-        const publicRoutes = Object.keys(ROUTES_CONFIG.public).map(key => ROUTES_CONFIG.public[key as keyof typeof ROUTES_CONFIG.public])[0];
+        Object.keys(ROUTES_CONFIG.public).map(key => ROUTES_CONFIG.public[key as keyof typeof ROUTES_CONFIG.public]).map((routes) => {
+            publicRoutes.push(...routes)
+        }) 
+
+        console.log({
+            protectedRoutes,
+            publicRoutes,
+            requestPath
+        })
+
         if (publicRoutes.includes(requestPath)) {
-            
             next();
             return;
         
         } else if (protectedRoutes.includes(requestPath)) {
+            
+            if (!token) {
+                res.status(401).json({ message: "Unauthorized" });
+                return;
+            }
+            
             jwt.verify(token, ENV_CONFIG.JWT_SECRET, (err: any, decoded: any) => {
 
                 if (err) {
