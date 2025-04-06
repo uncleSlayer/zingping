@@ -3,6 +3,8 @@ import http from 'http';
 import { Server } from 'socket.io';
 import { usersRouter } from './router/users';
 import cors from 'cors'
+import { authMiddleware } from './middlewares/auth'
+import { friendRouter } from './router/friend';
 
 const app = Express();
 
@@ -13,7 +15,9 @@ app.use(cors({
 }));
 
 app.use(Express.json());
+app.use(authMiddleware);
 app.use(usersRouter);
+app.use(friendRouter);
 
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {

@@ -1,28 +1,29 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
+import { ENV_CONFIG } from './config/env'
 
 export async function middleware(request: NextRequest) {
     const token = request.cookies.get('auth-token')
     const isAuthRoute = request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup'
-    
+
     // If no token, redirect to login unless already on login or signup page
     if (!token) {
         if (!isAuthRoute) {
             return NextResponse.redirect(new URL('/login', request.url))
         }
         return NextResponse.next()
-    } 
-    
+    }
+
     // If there is a token, verify it
     try {
-        const { payload } = await jwtVerify(token.value, new TextEncoder().encode(process.env.JWT_SECRET_KEY!))
-        
+        const { payload } = await jwtVerify(token.value, new TextEncoder().encode(ENV_CONFIG.JWT_SECRET_KEY))
+
         // If token is valid and user is trying to access login/signup pages, redirect to home
         if (isAuthRoute) {
             return NextResponse.redirect(new URL('/', request.url))
         }
-        
+
         // For other routes, proceed with the authenticated user
         const headers = new Headers(request.headers)
         headers.set("x-userEmail", Object(payload).email)

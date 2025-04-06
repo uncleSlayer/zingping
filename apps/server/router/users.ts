@@ -4,6 +4,7 @@ import { prisma } from "../prisma/index";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { z } from 'zod';
+import { ENV_CONFIG } from "../config/env";
 
 const registerSchema = z.object({
     name: z.string(),
@@ -98,7 +99,6 @@ usersRouter.post("/login", async (req, res) => {
         const { email, password } = req.body;
 
         const loginData = loginSchema.parse(req.body);
-
         if (!loginData) {
             const response: ResponseType = {
                 status: "error",
@@ -130,8 +130,7 @@ usersRouter.post("/login", async (req, res) => {
                 throw err;
             } else {
                 if (isMatch) {
-
-                    const token = jwt.sign({ email: existingUser.email }, "secret");
+                    const token = jwt.sign({ email: existingUser.email }, ENV_CONFIG.JWT_SECRET);
 
                     const responseInfo: ResponseType = {
                         status: "success",
