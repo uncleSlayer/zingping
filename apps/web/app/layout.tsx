@@ -40,18 +40,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const email = (await headers()).get("x-userEmail")
-
-  const socket = io(`${API_HOST}?email="siddhant.ota@gmail.com"`, {
-    auth: {
-      email: email,
-    },
-    withCredentials: true,
-  });
-
-  socket.on("connect", () => {
-    console.log("connected");
-  });
+  const email = (await headers()).get("x-userEmail") 
 
   return (
     <html lang="en">

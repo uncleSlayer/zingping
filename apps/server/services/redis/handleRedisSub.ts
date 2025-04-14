@@ -16,7 +16,7 @@ export const subscribe = async () => {
   });
 
   redisSub.on("message", async (ib, message) => {
-    console.log("the message is : ", message);
+    
     const messageObj: messageT = JSON.parse(message);
 
     const sender = await prisma.user.findUnique({

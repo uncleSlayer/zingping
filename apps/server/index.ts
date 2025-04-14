@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import { chatRouter } from "./router/chat";
 import { redisPub, redisSub } from "./services/redis/index";
 import { subscribe } from "./services/redis/handleRedisSub";
+import { setSocketConnections } from "./services/redis/socketConnections";
 
 const app = Express();
 
@@ -42,9 +43,14 @@ async function startServer() {
     await subscribe();
 
     io.on("connection", (socket) => {
-      const request = socket.handshake.auth;
-      // console.log("Header", request)
-      // console.log('a user connected with the socket id', socket.id);
+
+      const socketClientId = socket.id;
+
+      console.log("connected socket: ", socketClientId)
+      
+      const clientAuthenticatedEmail = socket.handshake.auth.email;
+
+      setSocketConnections(socketClientId, clientAuthenticatedEmail);
 
       socket.on("ib-message-from-client", (msg: any) => {
         // console.log("message from client", msg);

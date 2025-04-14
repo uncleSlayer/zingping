@@ -40,6 +40,8 @@ const SocketProvider = ({ children, userEmail }: { children: React.ReactNode, us
 
   useEffect(() => {
 
+    console.log("socket state is: ", socketState)
+
     if (!userEmail) return;
 
     if (!socketState) {
@@ -47,7 +49,8 @@ const SocketProvider = ({ children, userEmail }: { children: React.ReactNode, us
       const _socket = io(`${API_HOST}`, {
         auth: {
           email: userEmail,
-        }
+        },
+        withCredentials: true
       });
 
       _socket.on("connect", () => {
