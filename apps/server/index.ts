@@ -7,7 +7,8 @@ import { authMiddleware } from "./middlewares/auth";
 import { friendRouter } from "./router/friend";
 import cookieParser from "cookie-parser";
 import { chatRouter } from "./router/chat";
-import { redisPub } from "./services/redis/index";
+import { redisPub, redisSub } from "./services/redis/index";
+import { subscribe } from "./services/redis/handleRedisSub";
 
 const app = Express();
 
@@ -36,25 +37,37 @@ export const io = new Server(httpServer, {
   },
 });
 
-io.on("connection", (socket) => {
-  const request = socket.handshake.auth;
-  // console.log("Header", request)
-  // console.log('a user connected with the socket id', socket.id);
+async function startServer() {
+  try {
+    await subscribe();
 
-  socket.on("ib-message-from-client", (msg: any) => {
-    // console.log("message from client", msg);
-    try {
-      redisPub.publish("ib", JSON.stringify(msg), (err, res) => {
-        if (err) console.log(err);
+    io.on("connection", (socket) => {
+      const request = socket.handshake.auth;
+      // console.log("Header", request)
+      // console.log('a user connected with the socket id', socket.id);
+
+      socket.on("ib-message-from-client", (msg: any) => {
+        // console.log("message from client", msg);
+
+        try {
+          redisPub.publish("ib", JSON.stringify(msg), (err, res) => {
+            if (err) console.log(err);
+          });
+        } catch (error) {
+          console.log("there is an error: ");
+
+          console.log(error);
+        }
       });
-    } catch (error) {
-      console.log("there is an error: ");
+    });
 
-      console.log(error);
-    }
-  });
-});
+    httpServer.listen(8080, () => {
+      console.log("Server is running on port 8080");
+    });
+  } catch (error) {
+    console.error("Error starting server:", error);
+  }
+}
 
-httpServer.listen(8080, () => {
-  console.log("Server is running on port 8080");
-});
+// Start the server
+startServer();
