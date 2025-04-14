@@ -6,6 +6,7 @@ import cors from 'cors'
 import { authMiddleware } from './middlewares/auth'
 import { friendRouter } from './router/friend';
 import cookieParser from 'cookie-parser';
+import { chatRouter } from './router/chat';
 
 const app = Express();
 
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.use(authMiddleware);
 app.use(usersRouter);
 app.use(friendRouter);
+app.use(chatRouter)
 
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {

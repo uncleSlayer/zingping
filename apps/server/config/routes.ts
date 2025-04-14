@@ -3,63 +3,87 @@
  */
 
 const _routes = {
+  /**
+   * Protected routes requiring authentication
+   */
 
+  protected: {
     /**
-     * Protected routes requiring authentication
+     * Friend-related protected routes
+     * - friend/add - Add a new friend
+     * - friend/get/all - Get all friends
+     * - friend/request/status - Get friend requests filtered by status
+     * - friend/respond - Respond to friend requests
      */
 
-    protected: {
-
-        /**
-         * Friend-related protected routes
-         * - friend/add - Add a new friend
-         * - friend/get/all - Get all friends
-         * - friend/request/status - Get friend requests filtered by status
-         * - friend/respond - Respond to friend requests
-        */
-
-        friend: [
-            "/friend/add",
-            "/friend/get/all",
-            "/friend/request/pending",
-            "/friend/respond"
-        ],
-
-        /** 
-         * - chat/get/all - Get all chats
-         */
-
-        chat: [
-            "/chat/get/all"
-        ],
-
-        /** 
-         * - auth/logout - User logout
-         */
-
-        auth: [
-            "/auth/logout"
-        ]
-
+    friends: {
+      friendsAdd: {
+        path: "/friend/add",
+        name: "Add a new friend",
+      },
+      friendGetAll: {
+        path: "/friend/get/all",
+        name: "Get all friends",
+      },
+      sentFriendRequestPending: {
+        path: "/friend/request/pending",
+        name: "Get all pending friend requests",
+      },
+      friendRespond: {
+        path: "/friend/respond",
+        name: "Respond to friend requests",
+      },
+      searchNewFriend: {
+        path: "/friend/search",
+        name: "Search for a new friend",
+      } 
     },
 
     /**
-     * Public routes accessible without authentication
+     * - chat/get/all - Get all chats
      */
 
-    public: {
+    chat: {
+      chatGetAll: {
+        path: "/chat/get/all",
+        name: "Get all chats",
+      },
+    },
 
-        /**
-         * Authentication-related public routes
-         * - auth/login - User login
-         * - auth/register - New user registration
-         */
+    /**
+     * - auth/logout - User logout
+     */
 
-        auth: [
-            "/auth/login",
-            "/auth/register",
-        ],
-    }
+    auth: {
+      authLogout: {
+        path: "/auth/logout",
+        name: "User logout",
+      },
+    },
+  },
+
+  /**
+   * Public routes accessible without authentication
+   */
+
+  public: {
+    /**
+     * Authentication-related public routes
+     * - auth/login - User login
+     * - auth/register - New user registration
+     */
+
+    auth: {
+      authLogin: {
+        path: "/auth/login",
+        name: "User login",
+      },
+      authRegister: {
+        path: "/auth/register",
+        name: "New user registration",
+      },
+    },
+  },
 };
 
 /**

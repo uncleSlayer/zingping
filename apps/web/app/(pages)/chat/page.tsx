@@ -13,6 +13,7 @@ import {
   AvatarImage,
 } from '@/components/ui/avatar'
 import axios from 'axios'
+import { API_HOST } from '@/config/host'
 
 const page = () => {
   const [clickedPerson, setClickedPerson] = useState<null | { id: string, name: string, email: string, imageUrl: string }>(null)
@@ -20,7 +21,7 @@ const page = () => {
   const { error, data: friendsList, isLoading } = useQuery({
     queryKey: ['friendsList'],
     queryFn: async () => {
-      const response = await axios('http://localhost:8080/friend/get/all', {
+      const response = await axios(`${API_HOST}/friend/get/all`, {
         withCredentials: true,
       })
       return response.data.data
@@ -63,10 +64,10 @@ const page = () => {
                 return <li onClick={() => setClickedPerson(friend)} className='p-1 cursor-pointer dark:text-white rounded-lg' key={friend.id}>
                   <div className={`flex gap-x-2 items-center justify-start hover:bg-[rgb(238,238,248)] p-2 rounded-lg ${clickedPerson?.name === friend.name ? `bg-[rgb(238,238,248)]` : ''}`}>
                     <Avatar>
-                      <AvatarImage className='' src={friend.imageUrl} alt="@shadcn" />
+                      <AvatarImage className='object-cover' src={friend.imageUrl} alt="@shadcn" />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                    <p className=''> {friend.name} </p>
+                    <p className='text-xs'> {friend.email} </p>
                   </div>
                 </li>
               })

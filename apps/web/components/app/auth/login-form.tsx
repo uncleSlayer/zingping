@@ -12,6 +12,7 @@ import { toast } from "sonner"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { API_HOST } from "@/config/host"
 
 export function LoginForm({
   className,
@@ -43,7 +44,7 @@ export function LoginForm({
 
     } else {
 
-      const response = await axios.post("http://localhost:8080/auth/login", {
+      const response = await axios.post(`${API_HOST}/auth/login`, {
         email,
         password,
       }, {

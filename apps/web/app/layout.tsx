@@ -12,6 +12,7 @@ import { extractRouterConfig } from "uploadthing/server";
 import { uploadRouter } from "@/app/api/uploadthing/core";
 import { connection } from "next/server";
 import { Suspense } from "react";
+import { API_HOST } from "@/config/host";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +42,7 @@ export default async function RootLayout({
 
   const email = (await headers()).get("x-userEmail")
 
-  const socket = io('http://localhost:8080?email="siddhant.ota@gmail.com"', {
+  const socket = io(`${API_HOST}?email="siddhant.ota@gmail.com"`, {
     auth: {
       email: email,
     },

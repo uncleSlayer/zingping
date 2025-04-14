@@ -20,7 +20,7 @@ const loginSchema = z.object({
 
 export const usersRouter = Router();
 
-usersRouter.post(ROUTES_CONFIG.public.auth[1], async (req, res) => {
+usersRouter.post(ROUTES_CONFIG.public.auth.authRegister.path, async (req, res) => {
 
     try {
 
@@ -51,6 +51,7 @@ usersRouter.post(ROUTES_CONFIG.public.auth[1], async (req, res) => {
                 data: null,
             };
             res.status(400).json(response);
+            return
         }
 
         bcrypt.hash(password, 10, async (err: any, hash: any) => {
@@ -91,7 +92,7 @@ usersRouter.post(ROUTES_CONFIG.public.auth[1], async (req, res) => {
 
 });
 
-usersRouter.post(ROUTES_CONFIG.public.auth[0], async (req, res) => {
+usersRouter.post(ROUTES_CONFIG.public.auth.authLogin.path, async (req, res) => {
 
     try {
 
@@ -167,7 +168,7 @@ usersRouter.post(ROUTES_CONFIG.public.auth[0], async (req, res) => {
 
 })
 
-usersRouter.get(ROUTES_CONFIG.protected.auth[0], async (req, res) => {
+usersRouter.get(ROUTES_CONFIG.protected.auth.authLogout.path, async (req, res) => {
     try { 
 
         res.clearCookie("auth-token").status(200).json({

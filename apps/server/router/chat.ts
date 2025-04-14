@@ -5,7 +5,7 @@ import { prisma } from "../prisma";
 
 export const chatRouter = Router();
 
-chatRouter.get(ROUTES_CONFIG.protected.chat[0], async (req, res) => {
+chatRouter.get(ROUTES_CONFIG.protected.chat.chatGetAll.path, async (req, res) => {
 
     /**
      * @description - Get all chats

@@ -5,6 +5,7 @@ import axios from 'axios'
 import React from 'react'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { API_HOST } from '@/config/host'
 
 const LogoutButton = () => {
 
@@ -12,7 +13,7 @@ const LogoutButton = () => {
 
     return (
         <Button type='button' onClick={async () => {
-            const response = await axios("http://localhost:8080/auth/logout", {
+            const response = await axios(`${API_HOST}/auth/logout`, {
                 withCredentials: true,
             })
 

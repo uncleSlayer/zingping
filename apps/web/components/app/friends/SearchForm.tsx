@@ -17,15 +17,13 @@ import { useState } from 'react'
 import SuccessSearchDialog from "./SuccessSearchDialog";
 import { Loader } from 'lucide-react'
 import { toast } from 'sonner'
-
-
+import { API_HOST } from '@/config/host'
 
 const contactFormSchema = z.object({
     email: z.string().email()
 })
 
 const SearchForm = () => {
-
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const searchedUserDefaultValue = { id: '', name: '', email: '', imageUrl: '' }
     const [isLoading, setIsLoading] = useState(false)
@@ -42,25 +40,24 @@ const SearchForm = () => {
     })
 
     const onContactFormSubmit = async (data: z.infer<typeof contactFormSchema>) => {
-        if (data) {
+        try {
+            setIsLoading(true)
+            const response = await axios.get(`${API_HOST}/friend/search`, {
+                params: { email: data.email },
+                withCredentials: true,
+                headers: { 'Content-Type': 'application/json' }
+            })
 
-            try {
-                setIsLoading(true)
-                const resp = await axios.post('/api/friends/search', { email: data.email }, { headers: { 'Content-Type': 'application/json' } })
-                if (resp.status === 200) {
-                    setSearchedUser(resp.data.data)
-                    setIsDialogOpen(true)
-                }
-
-            } catch (error: any) {
-
-                toast("Something went wrong") 
-
+            if (response.status === 200 && response.data.status === 'success') {
+                setSearchedUser(response.data.data)
+                setIsDialogOpen(true)
+            } else {
+                toast.error("User not found")
             }
-
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || "Something went wrong")
+        } finally {
             setIsLoading(false)
-        } else {
-            console.log('Something went wrong.');
         }
     }
 
@@ -73,7 +70,7 @@ const SearchForm = () => {
                         name='email'
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel> Email Id </FormLabel>
+                                <FormLabel>Email</FormLabel>
                                 <FormControl>
                                     <Input {...field} type='text' className='my-2' placeholder='abc@xyz.com' />
                                 </FormControl>
@@ -81,12 +78,17 @@ const SearchForm = () => {
                             </FormItem>
                         )}
                     />
-                    <Button disabled={isLoading} type='submit' variant='default' className='my-2' >
-                        {isLoading ? (<><Loader className='mr-2' /> Searching </>) : <>Search</>}
+                    <Button disabled={isLoading} type='submit' variant='default' className='my-2'>
+                        {isLoading ? (<><Loader className='mr-2 h-4 w-4 animate-spin' /> Searching</>) : 'Search'}
                     </Button>
                 </form>
             </Form>
-            <SuccessSearchDialog profileInfo={searchedUser} toast={toast} setIsOpen={setIsDialogOpen} isOpen={isDialogOpen} /> 
+            <SuccessSearchDialog 
+                profileInfo={searchedUser} 
+                toast={toast} 
+                setIsOpen={setIsDialogOpen} 
+                isOpen={isDialogOpen} 
+            />
         </>
     )
 }

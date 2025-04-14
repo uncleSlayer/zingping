@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { queryClient } from '@/contexts/TanstackQueryProvider'
 import { Socket, io } from 'socket.io-client'
+import { API_HOST } from '@/config/host'
 
 type ibMessageType = {
   to: string,
@@ -43,7 +44,7 @@ const SocketProvider = ({ children, userEmail }: { children: React.ReactNode, us
 
     if (!socketState) {
 
-      const _socket = io("http://localhost:8080", {
+      const _socket = io(`${API_HOST}`, {
         auth: {
           email: userEmail,
         }

@@ -13,6 +13,7 @@ import { toast } from "sonner"
 import axios from "axios"
 import Link from "next/link"
 import ProfilePictureUploadButtonComponent from "./ProfilePictureUploadButton"
+import { API_HOST } from "@/config/host"
 
 export function RegisterationForm({
   className,
@@ -51,7 +52,7 @@ export function RegisterationForm({
 
     } else {
 
-      const response = await axios.post("http://localhost:8080/auth/register", {
+      const response = await axios.post(`${API_HOST}/auth/register`, {
         email,
         password,
         profileImageUrl
