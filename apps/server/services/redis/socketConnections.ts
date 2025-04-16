@@ -11,9 +11,8 @@ const redis = new Redis(
   `rediss://default:${ENV_CONFIG.REDIS_TOKEN}@${ENV_CONFIG.REDIS_HOST}:${ENV_CONFIG.REDIS_PORT}`
 );
 
-const socketConnections = new Map<string, string>();
-
 export const setSocketConnections = async (socketId: string, email: string) => {
+  
   const savedSocketState = await redis.hget("socketConnectionEmailToId", email);
 
   if (savedSocketState) {
@@ -31,10 +30,12 @@ export const setSocketConnections = async (socketId: string, email: string) => {
   await redis.hset("socketConnectionEmailToId", email, socketId);
 };
 
-export const getSocketIdFromEmail = (email: string) => {
-  return socketConnections.get(email);
+// have to get the socket, email from redis db.
+
+export const getSocketIdFromEmail = async (email: string) => {
+  return await redis.hget("socketConnectionEmailToId", email);
 };
 
-export const getEmailFromSocketId = (socketId: string) => {
-  return socketConnections.get(socketId);
+export const getEmailFromSocketId = async (socketId: string) => {
+  return await redis.hget("socketConnectionIdToEmail", socketId);
 };

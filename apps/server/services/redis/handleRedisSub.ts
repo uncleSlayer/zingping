@@ -1,5 +1,7 @@
 import { prisma } from "../../prisma";
 import { redisSub } from "../redis/index";
+import { getSocketIdFromEmail } from "./socketConnections";
+import { io } from "../..";
 // import { socketService } from '../../index'
 // import { createMessage } from '../../utils/message'
 
@@ -16,7 +18,6 @@ export const subscribe = async () => {
   });
 
   redisSub.on("message", async (ib, message) => {
-    
     const messageObj: messageT = JSON.parse(message);
 
     const sender = await prisma.user.findUnique({
@@ -41,13 +42,21 @@ export const subscribe = async () => {
       return;
     }
 
-    await prisma.messages.create({
+    const newMessage = await prisma.messages.create({
       data: {
         message: messageObj.message,
         receiverId: receiver.id,
-        senderId: sender.id
+        senderId: sender.id,
       },
     });
+
+    const ib_user_socket_id = await getSocketIdFromEmail(messageObj.to);
+
+    if (ib_user_socket_id) {
+      console.log("sending message to: ", ib_user_socket_id);
+      io.to(ib_user_socket_id).emit("ib-message-from-server", messageObj);
+    }
+
     // socketService.replyIb(messageObj.to, messageObj.from, messageObj.message, messageObj.time)
     // console.log('the message is : ', message);
 

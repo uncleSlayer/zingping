@@ -43,11 +43,10 @@ async function startServer() {
     await subscribe();
 
     io.on("connection", (socket) => {
-
       const socketClientId = socket.id;
 
-      console.log("connected socket: ", socketClientId)
-      
+      console.log("connected socket: ", socketClientId);
+
       const clientAuthenticatedEmail = socket.handshake.auth.email;
 
       setSocketConnections(socketClientId, clientAuthenticatedEmail);
@@ -75,5 +74,4 @@ async function startServer() {
   }
 }
 
-// Start the server
 startServer();
