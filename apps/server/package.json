@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc-watch --onsuccess \"node dist/index.js\""
+    "dev": "tsc-watch --onsuccess \"node dist/index.js\"",
+    "build": "tsc",
+    "start": "rm -rf ./dist && echo deleting old dist if present && echo building the node app && npm run build && node dist/index.js"
   },
   "keywords": [],
   "author": "",
