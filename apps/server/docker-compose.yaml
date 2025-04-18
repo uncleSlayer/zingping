@@ -36,6 +36,8 @@ services:
 
     build: .
 
+    image: sid00100/zingping-api:latest
+
     ports:
       - "8080:8080"
 
