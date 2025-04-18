@@ -30,7 +30,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           
       - name: Write env file
-        run: echo "${{ secrets.ENV_PRODUCTION_FILE }}" > .env.production
+        run: echo "${{ secrets.ENV_PRODUCTION_FILE }}" > apps/server/.env.production
 
       # Step 4: Build the services defined in docker-compose.yml
       - name: Build Docker images using Docker Compose
