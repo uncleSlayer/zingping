@@ -8,6 +8,10 @@ RUN npm install
 
 COPY . .
 
+ARG DATABASE_URL
+
+ENV DATABASE_URL=$DATABASE_URL
+
 RUN npm run build
 
 EXPOSE 8080

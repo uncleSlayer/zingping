@@ -31,8 +31,10 @@ jobs:
 
       # Step 4: Build the services defined in docker-compose.yml
       - name: Build Docker images using Docker Compose
-        run: cd apps/server && docker compose build
+        run: |
+          cd apps/server
+          docker compose build --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       # Step 5: Push the built images to Docker Hub
       - name: Push Docker images using Docker Compose
-        run: docker compose push
+        run: cd apps/server && docker compose push
