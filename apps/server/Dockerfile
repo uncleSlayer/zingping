@@ -12,4 +12,4 @@ RUN npm run build
 
 EXPOSE 8080
 
-CMD ["/bin/sh", "-c", "npx prisma migrate deploy && npx prisma generate && npm run start"]
+CMD ["/bin/sh", "-c", "npm run start"]

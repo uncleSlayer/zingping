@@ -15,7 +15,7 @@ const app = Express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://host.docker.internal:3000"],
     credentials: true,
     methods: ["GET", "POST"],
   })
@@ -31,7 +31,7 @@ app.use(chatRouter);
 const httpServer = http.createServer(app);
 export const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://host.docker.internal:3000"],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

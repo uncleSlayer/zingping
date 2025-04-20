@@ -1,9 +1,5 @@
 version: "3.9"
 
-networks:
-  zingping-network:
-    driver: bridge
-
 services:
   redis:
     image: redis:7.4.2
@@ -12,37 +8,32 @@ services:
     volumes:
       - ./redis-data:/data
     command: redis-server --appendonly yes
-    networks:
-      - zingping-network
-
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 3s
       retries: 5
+    networks:
+      - zingnet
 
   db:
     image: postgres:14.5
     volumes:
       - ./db-data:/var/lib/postgresql/data
     env_file:
-      - .env.production
+      - .env
     ports:
-      - 5434:5432
-    networks:
-      - zingping-network
-
+      - "5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - zingnet
 
   zingping-api:
-    volumes:
-      - .:app
     build: .
-    image: sid00100/zingping-api:latest
     ports:
       - "8080:8080"
     depends_on:
@@ -51,6 +42,10 @@ services:
       db:
         condition: service_healthy
     env_file:
-      - .env.production
+      - .env
     networks:
-      - zingping-network
+      - zingnet
+
+networks:
+  zingnet:
+    driver: bridge
