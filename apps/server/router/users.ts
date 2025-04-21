@@ -3,7 +3,7 @@ import { Response as ResponseType } from "../types/responseType";
 import { prisma } from "../prisma/index";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { z } from "zod";
+import { preprocess, z } from "zod";
 import { ENV_CONFIG } from "../config/env";
 import { ROUTES_CONFIG } from "../config/routes";
 
@@ -143,9 +143,10 @@ usersRouter.post(ROUTES_CONFIG.public.auth.authLogin.path, async (req, res) => {
               .cookie("auth-token", token, {
                 maxAge: 1000 * 60 * 60 * 24 * 7,
                 httpOnly: true,
-                sameSite: "none",
-                secure: true,
-                domain: ".siddhantota.in",
+                sameSite:
+                  process.env.NODE_ENV === "development" ? "none" : "lax",
+                secure: process.env.NODE_ENV === "development" ? false : true,
+                domain: process.env.NODE_ENV === "development" ? "localhost" : ".siddhantota.in",
               })
               .status(200)
               .json(responseInfo);
