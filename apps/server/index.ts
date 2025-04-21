@@ -15,7 +15,7 @@ const app = Express();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://api-zingping.siddhantota.in"],
+    origin: ["http://localhost:3000", "https://zingping.siddhantota.in"],
     credentials: true,
     methods: ["GET", "POST"],
   })
@@ -31,7 +31,7 @@ app.use(chatRouter);
 const httpServer = http.createServer(app);
 export const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:3000", "https://api-zingping.siddhantota.in"],
+    origin: ["http://localhost:3000", "https://zingping.siddhantota.in"],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
