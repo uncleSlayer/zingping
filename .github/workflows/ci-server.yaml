@@ -33,10 +33,10 @@ jobs:
       - name: Build Docker images using Docker Compose
         run: |
           cd apps/server
-          docker build -t sid00100/zingping-server:latest .
+          docker build -t sid00100/zingping:latest .
 
       # Step 5: Push the built images to Docker Hub
       - name: Push Docker images using Docker Compose
         run: |
           cd apps/server
-          docker push sid00100/zingping-server:latest
+          docker push sid00100/zingping:latest
