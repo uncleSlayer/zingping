@@ -146,7 +146,10 @@ usersRouter.post(ROUTES_CONFIG.public.auth.authLogin.path, async (req, res) => {
                 sameSite:
                   process.env.NODE_ENV === "development" ? "none" : "lax",
                 secure: process.env.NODE_ENV === "development" ? false : true,
-                domain: process.env.NODE_ENV === "development" ? "localhost" : ".siddhantota.in",
+                domain:
+                  process.env.NODE_ENV === "development"
+                    ? "localhost"
+                    : ".siddhantota.in",
               })
               .status(200)
               .json(responseInfo);
@@ -176,11 +179,19 @@ usersRouter.get(
   ROUTES_CONFIG.protected.auth.authLogout.path,
   async (req, res) => {
     try {
-      res.clearCookie("auth-token").status(200).json({
-        status: "success",
-        message: "User logged out successfully",
-        data: null,
-      });
+      res
+        .clearCookie("auth-token", {
+          httpOnly: true,
+          sameSite: process.env.NODE_ENV === "development" ? "none" : "lax",
+          secure: process.env.NODE_ENV === "development" ? false : true,
+          domain: ".siddhantota.in",
+        })
+        .status(200)
+        .json({
+          status: "success",
+          message: "User logged out successfully",
+          data: null,
+        });
     } catch (error) {
       const response: ResponseType = {
         status: "error",
