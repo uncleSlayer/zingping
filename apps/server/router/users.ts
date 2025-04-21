@@ -140,7 +140,7 @@ usersRouter.post(ROUTES_CONFIG.public.auth.authLogin.path, async (req, res) => {
                         },
                     };
 
-                    res.cookie("auth-token", token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true }).status(200).json(responseInfo);
+                    res.cookie("auth-token", token, { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true, sameSite: "none", secure: true }).status(200).json(responseInfo);
 
                 } else {
                     const response: ResponseType = {
