@@ -6,11 +6,14 @@ import { ENV_CONFIG } from './config/env'
 export async function middleware(request: NextRequest) {
     const token = request.cookies.get('auth-token')
     const isAuthRoute = request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup'
+    const isHomeRoute = request.nextUrl.pathname === '/' 
 
     // If no token, redirect to login unless already on login or signup page
     if (!token) {
         if (!isAuthRoute) {
             return NextResponse.redirect(new URL('/login', request.url))
+        } else if (isHomeRoute) {
+            return NextResponse.redirect(new URL('/', request.url))    
         }
         return NextResponse.next()
     }
