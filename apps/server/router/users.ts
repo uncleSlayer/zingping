@@ -139,16 +139,18 @@ usersRouter.post(ROUTES_CONFIG.public.auth.authLogin.path, async (req, res) => {
               },
             };
 
+            console.log("node env is ", process.env);
+
             res
               .cookie("auth-token", token, {
                 maxAge: 1000 * 60 * 60 * 24 * 7,
                 httpOnly: true,
                 sameSite:
-                  process.env.NODE_ENV === "development" ? "strict" : "none",
+                  process.env.NODE_ENV === "development" ? "lax" : "none",
                 secure: process.env.NODE_ENV === "development" ? false : true,
                 domain:
                   process.env.NODE_ENV === "development"
-                    ? "localhost"
+                    ? undefined
                     : ".siddhantota.in",
               })
               .status(200)

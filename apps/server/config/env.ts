@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 
 function getEnv() {
     
-    dotenv.config()
+    dotenv.config() 
 
     const _config = {
         DATABASE_URL: process.env.DATABASE_URL || "",
