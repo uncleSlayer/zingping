@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation' // Added usePathname
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -20,6 +20,7 @@ export default function PagesLayout({
   children: React.ReactNode
 }) {
   const router = useRouter()
+  const pathname = usePathname() // Get the current path
 
   const handleLogout = async () => {
     try {
@@ -48,15 +49,27 @@ export default function PagesLayout({
       <nav className="border-b bg-background">
         <div className="flex h-16 items-center px-4">
           <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              onClick={() => router.push('/')}
-              className="text-lg font-semibold"
-            >
-              ZingPing
-            </Button>
+            <span className="text-lg font-semibold">ZingPing</span>
           </div>
           <div className="ml-auto flex items-center space-x-4">
+            {pathname === '/chat' && (
+              <Button
+                variant="ghost"
+                onClick={() => router.push('/friends')}
+                className="text-sm font-medium cursor-pointer"
+              >
+                Friends
+              </Button>
+            )}
+            {pathname === '/friends' && (
+              <Button
+                variant="ghost"
+                onClick={() => router.push('/chat')}
+                className="text-sm font-medium cursor-pointer"
+              >
+                Chat
+              </Button>
+            )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -92,4 +105,4 @@ export default function PagesLayout({
       <main className="flex-1 p-4">{children}</main>
     </div>
   )
-} 
+}

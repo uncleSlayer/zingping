@@ -5,6 +5,7 @@ import { MessageCircle } from 'lucide-react';
 import { headers } from 'next/headers';
 import axios from 'axios';
 import LogoutButton from './(pages)/chat/LogoutButton';
+import Link from 'next/link';
 
 const ChatAppHomepage = async () => {
 
@@ -16,15 +17,16 @@ const ChatAppHomepage = async () => {
       <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur mx-auto">
         <div className="container flex h-16 items-center justify-between mx-auto">
           <div className="flex items-center gap-2">
-            <MessageCircle className="h-6 w-6 text-indigo-500" />
-            <span className="font-bold">ChatBuddy</span>
+            <span className="font-bold">ZingPing</span>
           </div>
           <nav className="flex items-center gap-4">
-            <Button variant="ghost" size="sm">Features</Button>
-            <Button variant="ghost" size="sm">About</Button>
-            {
-              email ? <LogoutButton /> : <Button variant="outline" size="sm">Sign in</Button>
-            }
+            {email ? (
+              <>
+                <Link href="/friends" className="text-sm font-medium">Friends</Link>
+                <Link href="/chat" className="text-sm font-medium">Chat</Link>
+                <LogoutButton />
+              </>
+            ) : null}
           </nav>
         </div>
       </header>
