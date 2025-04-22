@@ -144,7 +144,7 @@ usersRouter.post(ROUTES_CONFIG.public.auth.authLogin.path, async (req, res) => {
                 maxAge: 1000 * 60 * 60 * 24 * 7,
                 httpOnly: true,
                 sameSite:
-                  process.env.NODE_ENV === "development" ? "none" : "lax",
+                  process.env.NODE_ENV === "development" ? "strict" : "none",
                 secure: process.env.NODE_ENV === "development" ? false : true,
                 domain:
                   process.env.NODE_ENV === "development"

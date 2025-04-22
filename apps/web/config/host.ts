@@ -1,1 +1,1 @@
-export const API_HOST = process.env.NODE_ENV === "development" ? "https://api-zingping.siddhantota.in" : "https://api-zingping.siddhantota.in"
+export const API_HOST = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://api-zingping.siddhantota.in"
