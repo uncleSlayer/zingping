@@ -8,14 +8,21 @@ export async function middleware(request: NextRequest) {
     const isAuthRoute = request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup'
     const isHomeRoute = request.nextUrl.pathname === '/' 
 
-    // If no token, redirect to login unless already on login or signup page
-    if (!token) {
+    // If no token and not home route, redirect to login unless already on login or signup page
+    if (!token && !isHomeRoute) {
         if (!isAuthRoute) {
             return NextResponse.redirect(new URL('/login', request.url))
-        } else if (isHomeRoute) {
-            return NextResponse.redirect(new URL('/', request.url))    
         }
         return NextResponse.next()
+    }
+
+    // If it's the home route, allow access regardless of token
+    if (isHomeRoute) {
+        return NextResponse.next()
+    }
+
+    if (!token) {
+        return NextResponse.redirect(new URL('/login', request.url))
     }
 
     // If there is a token, verify it
