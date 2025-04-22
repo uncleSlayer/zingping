@@ -30,9 +30,9 @@ const SuccessSearchDialog = ({ isOpen, setIsOpen, profileInfo, toast }: { isOpen
         }
       )
 
-      if (response.status === 200 && response.data.status === 'success') {
+      if (response.status === 200) {
         toast.success(response.data.message)
-        queryClient.invalidateQueries({ queryKey: ['sent-friend-requests'] })
+        queryClient.invalidateQueries({ queryKey: ['friend-requests'] })
         setIsOpen(false)
       } else {
         toast.error(response.data.message || 'Something went wrong')

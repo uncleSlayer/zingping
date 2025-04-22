@@ -97,8 +97,7 @@ const FriendsRequestTable = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Request ID</TableHead>
-            <TableHead>User</TableHead>
+            <TableHead>Email</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
@@ -106,7 +105,6 @@ const FriendsRequestTable = () => {
         <TableBody>
           {friendRequests?.map((request) => (
             <TableRow key={request.id}>
-              <TableCell>{request.id}</TableCell>
               <TableCell>
                 {request.isSender ? request.receiver : request.sender}
               </TableCell>
