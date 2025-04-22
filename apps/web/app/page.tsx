@@ -14,10 +14,10 @@ const ChatAppHomepage = async () => {
   return (
     <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-gray-900">
       {/* Navbar */}
-      <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur mx-auto">
+      <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur mx-auto px-4">
         <div className="container flex h-16 items-center justify-between mx-auto">
           <div className="flex items-center gap-2">
-            <span className="font-bold">ZingPing</span>
+            <Link href='/' className="font-bold">ZingPing</Link>
           </div>
           <nav className="flex items-center gap-4">
             {email ? (
