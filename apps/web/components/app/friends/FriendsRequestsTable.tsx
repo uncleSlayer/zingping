@@ -121,6 +121,7 @@ const FriendsRequestTable = () => {
       const data = await response.json();
       if (data.status === "success") {
         queryClient.invalidateQueries({ queryKey: ["friend-requests"] });
+        queryClient.invalidateQueries({ queryKey: ["friends"] });
       } else {
         console.error("Failed to accept request:", data.message);
       }

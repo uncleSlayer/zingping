@@ -36,7 +36,7 @@ const page = () => {
           <SearchIcon className='' />
           <Input type='text' className='rounded-3xl outline-none border-none focus:outline-none focus:border-none' placeholder='Search' />
         </div>
-        <div className="m-2">
+        <div>
           <ul>
             <li><Skeleton className="h-6 my-2 w-auto" /></li>
             <li><Skeleton className="h-6 my-2 w-auto" /></li>
@@ -57,7 +57,7 @@ const page = () => {
           <SearchIcon className='' />
           <Input type='text' className='rounded-3xl outline-none border-none focus:outline-none focus:border-none' placeholder='Search' />
         </div>
-        <div className="m-2">
+        <div>
           <ul>
             {
               friendsList.map((friend: { id: string, name: string, email: string, imageUrl: string }, index: number) => {

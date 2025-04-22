@@ -60,15 +60,15 @@ const ChatWindow = ({
   return (
     <div className="h-full">
       {friendInfo && (
-        <div className="flex gap-2 flex-col justify-between h-full">
-          <Card className="mb-2 shadow-none flex cursor-pointer justify-between items-center gap-5 border-none">
-            <h3 className="font-medium text-xl">{friendInfo.email}</h3>
+        <div className="flex gap-2 flex-col h-full">
+          <Card className="mb-2 p-0 shadow-none flex cursor-pointer justify-between items-center gap-5 border-none">
+            <h3 className="font-medium text-xl mr-auto">{friendInfo.email}</h3>
             {/* <div className="flex items-center gap-2">
               <VideoIcon className="hover:bg-[rgb(238,238,248)] rounded-full w-8 h-8 p-1" />
               <MoreVertical className="hover:bg-[rgb(238,238,248)] rounded-full w-8 h-8 p-1" />
             </div> */}
           </Card>
-          <ScrollArea className="basis-4/6 border-none shadow-none">
+          <ScrollArea className="basis-4/6 h-3/4 shadow-none border rounded-lg">
             {messagesData.map((message: any, index: number) => {
               return (
                 <ul className="flex flex-col justify-evenly">
