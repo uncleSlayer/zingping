@@ -48,7 +48,7 @@ const SearchForm = () => {
                 headers: { 'Content-Type': 'application/json' }
             })
 
-            if (response.status === 200 && response.data.status === 'success') {
+            if (response.status === 200) {
                 setSearchedUser(response.data.data)
                 setIsDialogOpen(true)
             } else {

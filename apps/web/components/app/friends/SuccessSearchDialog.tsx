@@ -32,7 +32,10 @@ const SuccessSearchDialog = ({ isOpen, setIsOpen, profileInfo, toast }: { isOpen
 
       if (response.status === 200) {
         toast.success(response.data.message)
+
+        // Invalidate the friend-requests query after successfully sending a friend request
         queryClient.invalidateQueries({ queryKey: ['friend-requests'] })
+
         setIsOpen(false)
       } else {
         toast.error(response.data.message || 'Something went wrong')
