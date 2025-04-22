@@ -184,9 +184,9 @@ usersRouter.get(
       res
         .clearCookie("auth-token", {
           httpOnly: true,
-          sameSite: process.env.NODE_ENV === "development" ? "none" : "lax",
+          sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
           secure: process.env.NODE_ENV === "development" ? false : true,
-          domain: ".siddhantota.in",
+          domain: process.env.NODE_ENV === "development" ? undefined : ".siddhantota.in",
         })
         .status(200)
         .json({

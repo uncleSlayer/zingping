@@ -9,11 +9,7 @@ export type Friends = {
 
 export const columns: ColumnDef<Friends>[] = [
   {
-    accessorKey: "id",
-    header: "id",
-  },
-  {
-    accessorKey: "name",
-    header: "Name",
-  },
+    accessorKey: "email",
+    header: "email",
+  }
 ]
