@@ -47,10 +47,20 @@ const SocketProvider = ({
   );
 
   useEffect(() => {
+    console.log("user email is", userEmail)
+    console.log("change detected")
+  }, [userEmail])
+
+  useEffect(() => {
+
+    console.log("just before email check")
+
     if (!userEmail) {
       setIsConnected(false);
       return;
     }
+
+    console.log("just after email check")
 
     const initSocket = () => {
 

@@ -20,7 +20,7 @@ const LogoutButton = () => {
             if (response.status === 200) {
                 toast("User logged out successfully")
                 setTimeout(() => {
-                    router.push("/login")
+                    window.location.href = "/login"
                 }, 1000);
             } else {
                 toast("Something went wrong")

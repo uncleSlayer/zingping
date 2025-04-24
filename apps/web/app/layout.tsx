@@ -48,7 +48,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <TanstackQueryProvider>
-          <SocketProvider userEmail={email}>
+          <SocketProvider key={email} userEmail={email}>
             <AuthProvider email={email}>
               <Suspense>
                 <UTSSR />

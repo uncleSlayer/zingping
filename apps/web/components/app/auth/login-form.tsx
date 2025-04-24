@@ -59,7 +59,7 @@ export function LoginForm({
         toast(response.data.message)
 
         setTimeout(() => {
-          router.push("/")
+          window.location.href = "/"
         }, 1000);
 
       } else {
