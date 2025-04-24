@@ -53,6 +53,11 @@ const SocketProvider = ({
     }
 
     const initSocket = () => {
+
+      if (!userEmail) {
+        return null;
+      }
+
       const _socket = io(`${API_HOST}`, {
         auth: {
           email: userEmail,
