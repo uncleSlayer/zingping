@@ -54,14 +54,24 @@ chatRouter.get(
 
       const allChats = await prisma.messages.findMany({
         where: {
-          sender: { email: userInDb.email },
-          receiver: { email: otherPersonEmail },
+          OR: [
+            {
+              sender: { email: userInDb.email },
+              receiver: { email: otherPersonEmail }
+            },
+            {
+              sender: { email: otherPersonEmail },
+              receiver: { email: userInDb.email }
+            }
+          ]
         },
-
         include: {
           sender: true,
           receiver: true,
         },
+        orderBy: {
+          createdAt: 'asc'
+        }
       });
 
       if (!allChats) {

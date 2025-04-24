@@ -52,8 +52,6 @@ async function startServer() {
       setSocketConnections(socketClientId, clientAuthenticatedEmail);
 
       socket.on("ib-message-from-client", (msg: any) => {
-        // console.log("message from client", msg);
-
         try {
           redisPub.publish("ib", JSON.stringify(msg), (err, res) => {
             if (err) console.log(err);
