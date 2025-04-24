@@ -27,11 +27,15 @@ const ChatWindow = ({
     setMessageText("");
   }, [friendInfo]);
 
-  const socket = useContext(SocketContext);
-
+  const socketContext = useContext(SocketContext);
   const auth = useContext(AuthContext);
-
   const email = auth?.email;
+
+  if (!socketContext?.isConnected) {
+    return <div className="h-full flex items-center justify-center">
+      <h3 className="text-gray-500">Connecting to chat server...</h3>
+    </div>
+  }
 
   const {
     data: messagesData,
@@ -93,7 +97,7 @@ const ChatWindow = ({
               <Send
                 onClick={() => {
                   try {
-                    socket?.sendMessage({
+                    socketContext?.sendMessage({
                       to: friendInfo.email,
                       msg: messageText,
                       from: email!,
