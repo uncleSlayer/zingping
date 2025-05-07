@@ -4,7 +4,44 @@ zingping is a modern web-based chat application that allows users to connect, ch
 
 ## Architecture
 
-The application follows a client-server architecture. The frontend is built with Next.js and communicates with the backend via REST APIs and WebSockets for real-time features. The backend, powered by Express, manages user authentication, messaging, and video call signaling. Data is stored in PostgreSQL, and Redis is used for caching and session management.
+zingping is a real-time chat and video call platform built on a robust, scalable client-server architecture:
+
+- **Frontend**:  
+  Built with **Next.js**, the frontend provides a modern, responsive UI and communicates with the backend via REST APIs and WebSockets for real-time features.
+
+- **Backend**:  
+  The backend is powered by **Express** and handles user authentication, friend management, messaging, and video call signaling. It exposes RESTful APIs and manages real-time events using **Socket.io**.
+
+- **Database**:  
+  **PostgreSQL** is used as the primary data store for users, messages, and friend relationships, accessed via **Prisma** ORM for type-safe queries.
+
+- **Redis**:  
+  Redis is a core part of the real-time infrastructure:
+  - **Pub/Sub for Messaging**:  
+    Redis channels are used to publish and subscribe to real-time chat messages. When a user sends a message, it is published to a Redis channel; subscribers (the backend) receive the message, persist it to the database, and deliver it to the recipient via WebSocket.
+  - **Socket Connection Management**:  
+    Redis hash maps are used to associate user emails with their active socket connection IDs. This enables the backend to efficiently route real-time events (like incoming messages) to the correct connected client, even in a distributed/multi-instance deployment.
+  - **Session/State Management**:  
+    While not used for traditional session storage, Redis is leveraged for ephemeral state (like socket-user mappings) to support horizontal scaling and stateless backend instances.
+
+- **Monorepo & Tooling**:  
+  The project uses **TurboRepo** for monorepo orchestration and **PNPM** for fast, space-efficient package management. Shared UI components (based on ShadCN) are managed in a separate package for reuse across the app.
+
+### Redis Usage Details
+
+- **Initialization**:  
+  Redis clients are initialized using `ioredis`, with secure connection strings and environment-based configuration.
+- **Pub/Sub**:  
+  - The backend subscribes to a channel (e.g., `"ib"`) for incoming chat messages.
+  - When a message is published, the backend:
+    1. Parses the message.
+    2. Looks up sender and receiver in the database.
+    3. Persists the message.
+    4. Looks up the receiver's socket ID from Redis.
+    5. Emits the message to the receiver's socket via Socket.io.
+- **Socket Mapping**:  
+  - On connection, the backend stores mappings between socket IDs and user emails in Redis hash maps.
+  - This allows efficient lookup and cleanup of socket-user associations, supporting real-time delivery and reconnections.
 
 <!-- Example image usage: -->
 <!-- ![Architecture Diagram](/images/zingping-architecture.png) -->
@@ -120,7 +157,3 @@ This ensures that every change to the backend is automatically built and publish
 3. Make your changes
 4. Run lint and tests
 5. Submit a pull request
-
-## License
-
-MIT
